@@ -47,7 +47,7 @@ public class PropertyController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePropertyById(@PathVariable("id") Long id) {
         try {
-            propertyService.deletePropertyById(id); // Call service to delete property
+            propertyService.deletePropertyById(id);
             return ResponseEntity.ok("Property has been successfully deleted.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

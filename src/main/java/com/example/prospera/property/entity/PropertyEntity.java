@@ -1,4 +1,5 @@
 package com.example.prospera.property.entity;
+import com.example.prospera.investment.InvestmentEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -79,5 +80,18 @@ public class PropertyEntity {
 
     @Column(name = "number_of_bathrooms")
     private Integer numberOfBathrooms;
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<InvestmentEntity> investments = new ArrayList<>();
+
+    public void addInvestment(InvestmentEntity investment) {
+        investments.add(investment);
+        investment.setProperty(this);
+    }
+
+    public void removeInvestment(InvestmentEntity investment) {
+        investments.remove(investment);
+        investment.setProperty(null);
+    }
 
 }
