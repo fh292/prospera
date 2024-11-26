@@ -37,7 +37,7 @@ public class InvestmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<InvestmentResponse> addProperty(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody InvestmentRequest request) {
+    public ResponseEntity<InvestmentResponse> addInvestment(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody InvestmentRequest request) {
         InvestmentResponse investmentResponse = investmentService.addInvestment(userId, propertyId, request);
         return ResponseEntity.ok(investmentResponse);
     }

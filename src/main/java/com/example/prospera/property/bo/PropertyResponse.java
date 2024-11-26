@@ -18,7 +18,7 @@ public class PropertyResponse {
     private String name;
     private String location;
     private Integer totalShares;
-    private Integer availableShares;
+    private Double availableShares;
     private Integer rentalIncome;
     private Integer currentValue;
     private List<PropertyValueResponse> propertyValues;

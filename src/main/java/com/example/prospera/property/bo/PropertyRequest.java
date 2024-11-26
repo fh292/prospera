@@ -23,7 +23,7 @@ public class PropertyRequest {
     private String locationName;
     private String description;
     private Integer numberOfShares;
-    private Integer availableShares;
+    private Double availableShares;
     private Integer propertyPrice;
     private Double propertySize;
     private Integer numberOfBedrooms;

@@ -18,7 +18,7 @@ public class InvestmentResponse {
     private Long userId;
     private Long propertyId;
     private String name;
-    private Long sharesOwned;
+    private Double sharesOwned;
     private Double amountInvested;
     private Date createdAt;
     private Date updatedAt;
