@@ -31,7 +31,8 @@ public class AuthenticationService {
                 .setFirstName(input.getFirstName())
                 .setLastName(input.getLastName())
                 .setEmail(input.getEmail())
-                .setPassword(passwordEncoder.encode(input.getPassword()));
+                .setPassword(passwordEncoder.encode(input.getPassword()))
+                .setBalance(input.getBalance());
 
         return userRepository.save(user);
     }

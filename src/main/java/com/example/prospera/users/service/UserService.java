@@ -46,6 +46,9 @@ public class UserService {
                 userEntity.setPassword(request.getPassword());
             }
 
+            if (request.getBalance() != null) {
+                userEntity.setBalance(request.getBalance());
+            }
 
             // Save the updated user
             userEntity = userRepository.save(userEntity);
@@ -55,7 +58,8 @@ public class UserService {
                     userEntity.getId(),
                     userEntity.getEmail(),
                     userEntity.getFirstName(),
-                    userEntity.getLastName()
+                    userEntity.getLastName(),
+                    userEntity.getBalance()
 
             );
 
@@ -76,7 +80,8 @@ public class UserService {
                     userEntity.getId(),
                     userEntity.getEmail(),
                     userEntity.getFirstName(),
-                    userEntity.getLastName()
+                    userEntity.getLastName(),
+                    userEntity.getBalance()
 
             );
         } else {

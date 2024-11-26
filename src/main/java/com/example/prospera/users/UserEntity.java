@@ -40,6 +40,9 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private Double balance;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
