@@ -44,6 +44,7 @@ public class PropertyService {
         propertyEntity.setAvailableShares(propertyRequest.getAvailableShares());
         propertyEntity.setRentalIncome(propertyRequest.getRentalIncome());
         propertyEntity.setCurrentValue(propertyRequest.getCurrentValue());
+        propertyEntity.setTypeOfProperty(propertyRequest.getTypeOfProperty());
         propertyEntity.setLatitude(propertyRequest.getLatitude());
         propertyEntity.setLongitude(propertyRequest.getLongitude());
         propertyEntity.setLocationAddress(propertyRequest.getLocationAddress());
@@ -107,6 +108,10 @@ public class PropertyService {
                 propertyEntity.addToPropertyValues(propertyValueEntity);
             }
             propertyEntity.setUpdatedAt(new Date());
+
+            if (request.getTypeOfProperty() != null) {
+                propertyEntity.setTypeOfProperty(request.getTypeOfProperty());
+            }
 
             if (request.getLatitude() != null) {
                 propertyEntity.setLatitude(request.getLatitude());

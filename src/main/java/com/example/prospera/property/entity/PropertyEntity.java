@@ -51,6 +51,9 @@ public class PropertyEntity {
         propertyValues.add(propertyValueEntity);
     }
 
+    @Column(name = "type_of_property")
+    private String typeOfProperty;
+
     @Column(name = "latitude")
     private String latitude;
 

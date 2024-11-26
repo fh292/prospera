@@ -16,6 +16,7 @@ public class PropertyRequest {
     private Integer totalShares;
     private Integer currentValue;
     private Integer rentalIncome;
+    private String typeOfProperty;
     private String latitude;
     private String longitude;
     private String locationAddress;

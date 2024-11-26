@@ -22,6 +22,7 @@ public class PropertyResponse {
     private Integer rentalIncome;
     private Integer currentValue;
     private List<PropertyValueResponse> propertyValues;
+    private String typeOfProperty;
     private String latitude;
     private String longitude;
     private String locationAddress;
