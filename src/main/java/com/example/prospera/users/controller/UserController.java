@@ -36,10 +36,10 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody RegisterRequest request) {
+    @PutMapping("/me/update")
+    public ResponseEntity<UserResponse> updateUser(@RequestBody RegisterRequest request) {
         try {
-            UserResponse updatedUser = userService.updateUser(id, request);
+            UserResponse updatedUser = userService.updateUser(request);
             return ResponseEntity.ok(updatedUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

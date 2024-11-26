@@ -4,6 +4,9 @@ import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.UserRepository;
 import com.example.prospera.users.bo.RegisterRequest;
 import com.example.prospera.users.bo.UserResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,12 +25,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserResponse updateUser(Long id, RegisterRequest request) {
-        // Find the user by id
-        Optional<UserEntity> userOptional = userRepository.findById(id);
+    public UserResponse updateUser(RegisterRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity authenticatedUser = (UserEntity) authentication.getPrincipal();
 
-        if (userOptional.isPresent()) {
-            UserEntity userEntity = userOptional.get();
+        UserEntity userEntity = userRepository.findById(authenticatedUser.getId())
+            .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        // if (userOptional.isPresent()) {
+        //     UserEntity userEntity = userOptional.get();
 
             // Update fields
             if (request.getFirstName() != null) {
@@ -41,9 +47,6 @@ public class UserService {
             }
             if (request.getPassword() != null) {
                 userEntity.setPassword(request.getPassword());
-            }
-            if (request.getBalance() != null) {
-                userEntity.setBalance(request.getBalance());
             }
 
             // Save the updated user
@@ -59,10 +62,10 @@ public class UserService {
             );
 
             return response;
-        } else {
-            // If user not found, you can handle it in various ways
-            throw new IllegalArgumentException("User with ID " + id + " not found.");
-        }
+        // } else {
+        //     // If user not found, you can handle it in various ways
+        //     throw new IllegalArgumentException("User with ID " + id + " not found.");
+        // }
     }
 
     public UserResponse getUserById(Long id) {

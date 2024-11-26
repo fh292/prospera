@@ -28,6 +28,9 @@ public class ShareTransactionResponse {
     private Double investmentAmountInvested;
 
     public ShareTransactionResponse(TransactionEntity transactionEntity, InvestmentEntity investment) {
+        if (investment == null) {
+            return; // investment is deleted from database bc user sold all shares
+        }
         this.id = transactionEntity.getId();
         this.userId = transactionEntity.getUser() != null ? transactionEntity.getUser().getId() : null;
         this.type = transactionEntity.getType();

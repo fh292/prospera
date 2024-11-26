@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +45,7 @@ public class TransactionService {
         UserEntity authenticatedUser = (UserEntity) authentication.getPrincipal();
 
         UserEntity user = userRepository.findById(authenticatedUser.getId())
-            .orElseThrow(() -> new IllegalArgumentException("User not found."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         if (transactionRequest.getAmount() <= 0) {
             throw new IllegalArgumentException("Deposit amount must be greater than zero.");
@@ -94,7 +93,6 @@ public class TransactionService {
         return new TransactionResponse(transaction);
     }
 
-
     public ShareTransactionResponse buyShare(Long propertyId, TransactionRequest request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -116,7 +114,6 @@ public class TransactionService {
         if (user.getBalance() < totalCost) {
             throw new IllegalArgumentException("Insufficient balance to buy shares.");
         }
-
 
         user.setBalance(user.getBalance() - totalCost);
 
@@ -181,16 +178,9 @@ public class TransactionService {
         investment.setSharesOwned(investment.getSharesOwned() - request.getAmount());
         investment.setAmountInvested(investment.getAmountInvested() - totalCost);
 
-
         user.setBalance(user.getBalance() + totalCost);
 
         property.setAvailableShares(property.getAvailableShares() + request.getAmount());
-
-        if (investment.getSharesOwned() == 0) {
-            investmentRepository.delete(investment);
-        } else {
-            investmentRepository.save(investment);
-        }
 
         userRepository.save(user);
         propertyRepository.save(property);
@@ -204,9 +194,15 @@ public class TransactionService {
         transaction.setUpdatedAt(new Date());
         transactionRepository.save(transaction);
 
-        return new ShareTransactionResponse(transaction, investment);
-    }
+        if (investment.getSharesOwned() == 0) {
+            investmentRepository.delete(investment);
+            return new ShareTransactionResponse(transaction, null);
+        } else {
+            investmentRepository.save(investment);
+            return new ShareTransactionResponse(transaction, investment);
+        }
 
+    }
 
     public TransactionResponse updateTransaction(Long id, TransactionRequest transactionRequest) {
         TransactionEntity transaction = transactionRepository.findById(id)
@@ -224,7 +220,6 @@ public class TransactionService {
         TransactionEntity updatedTransaction = transactionRepository.save(transaction);
         return new TransactionResponse(updatedTransaction);
     }
-
 
     public void deleteTransaction(Long id) {
         if (!transactionRepository.existsById(id)) {
