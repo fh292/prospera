@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class PropertyValueResponse {
     private Long id;
     private Integer propertyValue;
-    private Integer availableShares;
+    private Double availableShares;
     private Date date;
 
     public PropertyValueResponse(PropertyValueEntity propertyValueEntity) {

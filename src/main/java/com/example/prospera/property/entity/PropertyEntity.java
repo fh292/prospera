@@ -1,5 +1,7 @@
 package com.example.prospera.property.entity;
 import com.example.prospera.investment.InvestmentEntity;
+import com.example.prospera.transaction.TransactionEntity;
+import com.example.prospera.users.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +22,7 @@ public class PropertyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     private String name;
 
@@ -30,7 +33,7 @@ public class PropertyEntity {
     private Integer totalShares;
 
     @Column(name = "availableShares")
-    private Integer availableShares;
+    private Double availableShares;
 
     @Column(name = "rentalIncome")
     private Integer rentalIncome;
@@ -95,6 +98,19 @@ public class PropertyEntity {
     public void removeInvestment(InvestmentEntity investment) {
         investments.remove(investment);
         investment.setProperty(null);
+    }
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<TransactionEntity> transactions = new ArrayList<>();
+
+    public void addTransaction(TransactionEntity transaction) {
+        transactions.add(transaction);
+        transaction.setProperty(this);
+    }
+
+    public void removeTransaction(TransactionEntity transaction) {
+        transactions.remove(transaction);
+        transaction.setProperty(null);
     }
 
 }

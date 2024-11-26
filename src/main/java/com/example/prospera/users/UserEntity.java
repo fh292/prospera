@@ -51,9 +51,6 @@ public class UserEntity implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<InvestmentEntity> investments;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

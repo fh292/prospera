@@ -30,10 +30,15 @@ public class InvestmentEntity {
     private PropertyEntity property;
 
     private String name;
-    private Long sharesOwned;
+    private Double sharesOwned;
     private Double amountInvested;
+
+    @Column(name = "investment_created_at")
     private Date createdAt;
+
+    @Column(name = "investment_updated_at")
     private Date updatedAt;
+
 
 
 }

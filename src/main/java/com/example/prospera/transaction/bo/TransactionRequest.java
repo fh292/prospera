@@ -1,4 +1,4 @@
-package com.example.prospera.investment.bo;
+package com.example.prospera.transaction.bo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvestmentRequest {
+public class TransactionRequest {
 
-    private String name;
-    private Double sharesOwned;
-    private Double amountInvested;
 
+    private String type;
+    private Double amount;
 
 }

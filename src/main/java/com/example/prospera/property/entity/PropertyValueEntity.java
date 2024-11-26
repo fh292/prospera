@@ -21,7 +21,7 @@ public class PropertyValueEntity {
     private Long id;
 
     private Integer propertyValue;
-    private Integer availableShares;
+    private Double availableShares;
     private Date valueDate;
 
     @ManyToOne
