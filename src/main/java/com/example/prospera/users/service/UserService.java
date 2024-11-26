@@ -21,7 +21,6 @@ public class UserService {
         List<UserEntity> users = new ArrayList<>();
 
         userRepository.findAll().forEach(users::add);
-
         return users;
     }
 

@@ -48,7 +48,7 @@ public class PropertyEntity {
     @Column(name = "currentValue")
     private Integer currentValue;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value={"property"})
     private List<PropertyValueEntity> propertyValues = new ArrayList<>();
 
