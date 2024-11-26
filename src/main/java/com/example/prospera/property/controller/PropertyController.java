@@ -1,4 +1,5 @@
 package com.example.prospera.property.controller;
+
 import com.example.prospera.property.PropertyRepository;
 import com.example.prospera.property.bo.PropertyRequest;
 import com.example.prospera.property.bo.PropertyResponse;
@@ -12,14 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/properties")
-
 public class PropertyController {
-
 
     @Autowired
     private PropertyService propertyService;
 
     private final PropertyRepository propertyRepository;
+
     public PropertyController(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
     }

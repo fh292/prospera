@@ -1,4 +1,5 @@
 package com.example.prospera.users.service;
+
 import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.UserRepository;
 import com.example.prospera.users.bo.RegisterRequest;
@@ -18,10 +19,7 @@ public class UserService {
     }
 
     public List<UserEntity> allUsers() {
-        List<UserEntity> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-        return users;
+        return userRepository.findAll();
     }
 
     public UserResponse updateUser(Long id, RegisterRequest request) {
@@ -44,7 +42,6 @@ public class UserService {
             if (request.getPassword() != null) {
                 userEntity.setPassword(request.getPassword());
             }
-
             if (request.getBalance() != null) {
                 userEntity.setBalance(request.getBalance());
             }
@@ -59,7 +56,6 @@ public class UserService {
                     userEntity.getFirstName(),
                     userEntity.getLastName(),
                     userEntity.getBalance()
-
             );
 
             return response;

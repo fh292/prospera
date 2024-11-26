@@ -30,7 +30,6 @@ public class ShareTransactionResponse {
     public ShareTransactionResponse(TransactionEntity transactionEntity, InvestmentEntity investment) {
         this.id = transactionEntity.getId();
         this.userId = transactionEntity.getUser() != null ? transactionEntity.getUser().getId() : null;
-        this.propertyId = transactionEntity.getProperty() != null ? transactionEntity.getProperty().getId() : null;
         this.type = transactionEntity.getType();
         this.amount = transactionEntity.getAmount();
         this.createdAt = transactionEntity.getCreatedAt();

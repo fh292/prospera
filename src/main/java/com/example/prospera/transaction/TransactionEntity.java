@@ -1,4 +1,5 @@
 package com.example.prospera.transaction;
+
 import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.users.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,15 +23,11 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value={"transactions"})
+    @JsonIgnoreProperties(value = {"transactions"})
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties(value={"transactions"})
-    private PropertyEntity property;
 
     @Column(name = "type")
     private String type; // deposit, withdraw, buy share, sell share

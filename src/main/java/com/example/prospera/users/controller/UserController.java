@@ -1,4 +1,5 @@
 package com.example.prospera.users.controller;
+
 import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.bo.RegisterRequest;
 import com.example.prospera.users.bo.UserResponse;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RequestMapping("/users")
 @RestController
 public class UserController {
@@ -22,7 +24,6 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserEntity> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         UserEntity currentUser = (UserEntity) authentication.getPrincipal();
 
         return ResponseEntity.ok(currentUser);
@@ -30,7 +31,7 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<List<UserEntity>> allUsers() {
-        List <UserEntity> users = userService.allUsers();
+        List<UserEntity> users = userService.allUsers();
 
         return ResponseEntity.ok(users);
     }
@@ -55,6 +56,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         try {
@@ -64,6 +66,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 
 }

@@ -29,30 +29,29 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<TransactionResponse> deposit(@RequestParam Long userId, @RequestBody TransactionRequest request) {
-        TransactionResponse transactionResponse = transactionService.deposit(userId, request);
+    public ResponseEntity<TransactionResponse> deposit(@RequestBody TransactionRequest request) {
+        TransactionResponse transactionResponse = transactionService.deposit(request);
         return ResponseEntity.ok(transactionResponse);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<TransactionResponse> withdraw(@RequestParam Long userId, @RequestBody TransactionRequest request) {
-        TransactionResponse transactionResponse = transactionService.withdraw(userId, request);
+    public ResponseEntity<TransactionResponse> withdraw(@RequestBody TransactionRequest request) {
+        TransactionResponse transactionResponse = transactionService.withdraw(request);
         return ResponseEntity.ok(transactionResponse);
     }
 
     @PostMapping("/buy-share")
-    public ResponseEntity<ShareTransactionResponse> buyShare(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody TransactionRequest request) {
+    public ResponseEntity<ShareTransactionResponse> buyShare(@RequestParam Long propertyId, @RequestBody TransactionRequest request) {
 
-        ShareTransactionResponse transactionResponse = transactionService.buyShare(userId, propertyId, request);
+        ShareTransactionResponse transactionResponse = transactionService.buyShare(propertyId, request);
         return ResponseEntity.ok(transactionResponse);
     }
 
-//    @PostMapping("/sell-share")
-//    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody TransactionRequest request) {
-//        ShareTransactionResponse transactionResponse = transactionService.sellShare(userId, propertyId, request);
-//        return ResponseEntity.ok(transactionResponse);
-//    }
-
+    @PostMapping("/sell-share")
+    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long propertyId, @RequestBody TransactionRequest request) {
+        ShareTransactionResponse transactionResponse = transactionService.sellShare(propertyId, request);
+        return ResponseEntity.ok(transactionResponse);
+    }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<TransactionResponse> updateTransaction(@PathVariable Long id, @RequestBody TransactionRequest transactionRequest) {

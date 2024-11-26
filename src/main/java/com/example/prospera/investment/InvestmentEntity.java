@@ -22,7 +22,7 @@ public class InvestmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value={"investments"})
     private UserEntity user;

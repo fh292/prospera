@@ -49,12 +49,8 @@ public class PropertyEntity {
     private Integer currentValue;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value={"property"})
+    @JsonIgnoreProperties(value = {"property"})
     private List<PropertyValueEntity> propertyValues = new ArrayList<>();
-
-    public void addToPropertyValues(PropertyValueEntity propertyValueEntity) {
-        propertyValues.add(propertyValueEntity);
-    }
 
     @Column(name = "type_of_property")
     private String typeOfProperty;
@@ -89,9 +85,17 @@ public class PropertyEntity {
     @Column(name = "number_of_bathrooms")
     private Integer numberOfBathrooms;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value={"property"})
+    @OneToMany(mappedBy = "property")
+    @JsonIgnoreProperties(value = {"property"})
     private List<InvestmentEntity> investments = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties(value = {"property"})
+//    private List<TransactionEntity> transactions = new ArrayList<>();
+
+    public void addToPropertyValues(PropertyValueEntity propertyValueEntity) {
+        propertyValues.add(propertyValueEntity);
+    }
 
     public void addInvestment(InvestmentEntity investment) {
         investments.add(investment);
@@ -103,18 +107,14 @@ public class PropertyEntity {
         investment.setProperty(null);
     }
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value={"property"})
-    private List<TransactionEntity> transactions = new ArrayList<>();
+//    public void addTransaction(TransactionEntity transaction) {
+//        transactions.add(transaction);
+////        transaction.setProperty(this);
+//    }
 
-    public void addTransaction(TransactionEntity transaction) {
-        transactions.add(transaction);
-        transaction.setProperty(this);
-    }
-
-    public void removeTransaction(TransactionEntity transaction) {
-        transactions.remove(transaction);
-        transaction.setProperty(null);
-    }
+//    public void removeTransaction(TransactionEntity transaction) {
+//        transactions.remove(transaction);
+////        transaction.setProperty(null);
+//    }
 
 }
