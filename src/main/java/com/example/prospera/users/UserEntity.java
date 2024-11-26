@@ -1,5 +1,8 @@
 package com.example.prospera.users;
 
+import com.example.prospera.investment.InvestmentEntity;
+import com.example.prospera.transaction.TransactionEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,6 +53,14 @@ public class UserEntity implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value={"user"})
+    private List<InvestmentEntity> investments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value={"user"})
+    private List<TransactionEntity> transactions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
