@@ -47,11 +47,11 @@ public class TransactionController {
         return ResponseEntity.ok(transactionResponse);
     }
 
-    @PostMapping("/sell-share")
-    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody TransactionRequest request) {
-        ShareTransactionResponse transactionResponse = transactionService.sellShare(userId, propertyId, request);
-        return ResponseEntity.ok(transactionResponse);
-    }
+//    @PostMapping("/sell-share")
+//    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long userId, @RequestParam Long propertyId, @RequestBody TransactionRequest request) {
+//        ShareTransactionResponse transactionResponse = transactionService.sellShare(userId, propertyId, request);
+//        return ResponseEntity.ok(transactionResponse);
+//    }
 
 
     @PutMapping("/update/{id}")

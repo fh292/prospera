@@ -1,6 +1,7 @@
 package com.example.prospera.investment;
 import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.users.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +24,12 @@ public class InvestmentEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties(value={"investments"})
     private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "property_id")
+    @JsonIgnoreProperties(value={"investments"})
     private PropertyEntity property;
 
     private String name;

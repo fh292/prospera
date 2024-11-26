@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -147,53 +148,78 @@ public class TransactionService {
         return new ShareTransactionResponse(transaction, investment);
     }
 
-    public ShareTransactionResponse sellShare(Long userId, Long propertyId, TransactionRequest request) {
+//    public ShareTransactionResponse sellShare(Long userId, Long propertyId, TransactionRequest request) {
+//
+//        // Fetch the user and property entities
+//        UserEntity user = userRepository.findById(userId)
+//                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+//        PropertyEntity property = propertyRepository.findById(propertyId)
+//                .orElseThrow(() -> new IllegalArgumentException("Property with ID " + propertyId + " not found"));
+//
+//        // Fetch all investments the user has in this property
+//        Optional<InvestmentEntity> investments = investmentRepository.findByUserAndProperty(user, property);
+//
+//        // Calculate the total shares the user owns in this property
+//        double totalSharesOwned = investments.stream().mapToDouble(InvestmentEntity::getSharesOwned).sum();
+//
+//        // Check if the user has enough shares to sell
+//        if (totalSharesOwned < request.getAmount()) {
+//            throw new IllegalArgumentException("Insufficient shares to sell.");
+//        }
+//
+//        // Calculate share price
+//        double sharePrice = (double) property.getPropertyPrice() / property.getTotalShares();
+//        double totalRevenue = sharePrice * request.getAmount();
+//
+//        // Update user's balance
+//        user.setBalance(user.getBalance() + totalRevenue);
+//
+//        // Deduct the shares from investments
+//        double sharesToSell = request.getAmount();
+//        for (InvestmentEntity investment : investments) {
+//            if (sharesToSell <= 0) break;
+//
+//            double investmentShares = investment.getSharesOwned();
+//            double investmentAmountInvested = investment.getAmountInvested();
+//
+//            // If the investment has fewer shares than or equal to the shares left to sell, reduce it fully
+//            if (investmentShares <= sharesToSell) {
+//                sharesToSell -= investmentShares;
+//                investment.setSharesOwned(0.0); // All shares in this investment are sold
+//                double updatedInvestment = investmentAmountInvested - (sharePrice * investmentShares);
+//                investment.setAmountInvested(Math.max(updatedInvestment, 0)); // Ensure amount does not go negative
+//            } else {
+//                // If this investment has more shares than the amount left to sell, deduct only the required amount
+//                investment.setSharesOwned(investmentShares - sharesToSell);
+//                double updatedInvestment = investmentAmountInvested - (sharePrice * sharesToSell);
+//                investment.setAmountInvested(Math.max(updatedInvestment, 0));
+//                sharesToSell = 0; // All shares sold
+//            }
+//            investmentRepository.save(investment); // Save each investment after modification
+//        }
+//
+//        // Update property availability
+//        property.setAvailableShares(property.getAvailableShares() + request.getAmount());
+//
+//        // Save updated user and property data
+//        userRepository.save(user);
+//        propertyRepository.save(property);
+//
+//        // Create a transaction entry
+//        TransactionEntity transaction = new TransactionEntity();
+//        transaction.setType("sell share");
+//        transaction.setUser(user);
+//        transaction.setProperty(property);
+//        transaction.setAmount(request.getAmount());
+//        transaction.setCreatedAt(new Date());
+//        transaction.setUpdatedAt(new Date());
+//        transactionRepository.save(transaction);
+//
+//        // Return response with transaction and investment information
+//        // Assuming the first investment to return in response
+//        return new ShareTransactionResponse(transaction, investments);
+//    }
 
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
-        PropertyEntity property = propertyRepository.findById(propertyId)
-                .orElseThrow(() -> new IllegalArgumentException("Property with ID " + propertyId + " not found"));
-
-        // Retrieve the user's investment in the property
-        InvestmentEntity investment = investmentRepository.findByUserAndProperty(user, property)
-                .orElseThrow(() -> new IllegalArgumentException("No investment found for user in the specified property."));
-
-        if (investment.getSharesOwned() < request.getAmount()) {
-            throw new IllegalArgumentException("Insufficient shares to sell.");
-        }
-
-        // Calculate share price and total revenue from selling shares
-        double sharePrice = (double) property.getPropertyPrice() / property.getTotalShares();
-        double totalRevenue = sharePrice * request.getAmount();
-
-        // Update user's balance and investment details
-        user.setBalance(user.getBalance() + totalRevenue);
-        investment.setSharesOwned(investment.getSharesOwned() - request.getAmount());
-
-        // Ensure that the investment amount does not go negative
-        double updatedInvestment = investment.getAmountInvested() - (sharePrice * request.getAmount());
-        investment.setAmountInvested(Math.max(updatedInvestment, 0));
-
-        // Update property availability
-        property.setAvailableShares(property.getAvailableShares() + request.getAmount());
-
-        // Save the updated data to the repositories
-        userRepository.save(user);
-        propertyRepository.save(property);
-        investmentRepository.save(investment);
-
-        TransactionEntity transaction = new TransactionEntity();
-        transaction.setType("sell share");
-        transaction.setUser(user);
-        transaction.setProperty(property);
-        transaction.setAmount(request.getAmount());
-        transaction.setCreatedAt(new Date());
-        transaction.setUpdatedAt(new Date());
-
-        transactionRepository.save(transaction);
-
-        return new ShareTransactionResponse(transaction, investment);
-    }
 
 
 

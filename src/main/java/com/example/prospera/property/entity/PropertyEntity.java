@@ -2,6 +2,7 @@ package com.example.prospera.property.entity;
 import com.example.prospera.investment.InvestmentEntity;
 import com.example.prospera.transaction.TransactionEntity;
 import com.example.prospera.users.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,7 @@ public class PropertyEntity {
     private Integer currentValue;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value={"property"})
     private List<PropertyValueEntity> propertyValues = new ArrayList<>();
 
     public void addToPropertyValues(PropertyValueEntity propertyValueEntity) {
@@ -88,6 +90,7 @@ public class PropertyEntity {
     private Integer numberOfBathrooms;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value={"property"})
     private List<InvestmentEntity> investments = new ArrayList<>();
 
     public void addInvestment(InvestmentEntity investment) {
@@ -101,6 +104,7 @@ public class PropertyEntity {
     }
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value={"property"})
     private List<TransactionEntity> transactions = new ArrayList<>();
 
     public void addTransaction(TransactionEntity transaction) {
