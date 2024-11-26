@@ -46,7 +46,7 @@ public class PropertyDetailEntity {
     @Column(name = "number_of_bathrooms")
     private Integer numberOfBathrooms;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "property_id")
     private PropertyEntity property;
 }

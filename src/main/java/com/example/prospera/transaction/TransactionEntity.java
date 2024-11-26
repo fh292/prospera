@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_investment")
+@Table(name = "_transaction")
 public class TransactionEntity {
 
     @Id
