@@ -55,6 +55,12 @@ public class PropertyService {
                 .updatedAt(new Date())
                 .build();
 
+        propertyEntity.addImageUrl(propertyRequest.getImagesUrl1());
+        propertyEntity.addImageUrl(propertyRequest.getImagesUrl2());
+        propertyEntity.addImageUrl(propertyRequest.getImagesUrl3());
+        propertyEntity.addImageUrl(propertyRequest.getImagesUrl4());
+        propertyEntity.addImageUrl(propertyRequest.getImagesUrl5());
+
         PropertyValueEntity propertyValueEntity = PropertyValueEntity.builder()
                 .propertyValue(propertyRequest.getCurrentValue())
                 .availableShares(propertyRequest.getAvailableShares())

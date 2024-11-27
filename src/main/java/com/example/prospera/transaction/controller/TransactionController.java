@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/transactions")
@@ -24,7 +25,7 @@ public class TransactionController {
     }
 
     @GetMapping("/view/{id}")
-    public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable Long id) {
+    public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable UUID id) {
         return ResponseEntity.ok(transactionService.getTransactionById(id));
     }
 
@@ -41,25 +42,28 @@ public class TransactionController {
     }
 
     @PostMapping("/buy-share")
-    public ResponseEntity<ShareTransactionResponse> buyShare(@RequestParam Long propertyId, @RequestBody TransactionRequest request) {
+    public ResponseEntity<ShareTransactionResponse> buyShare(@RequestParam Long propertyId,
+            @RequestBody TransactionRequest request) {
 
         ShareTransactionResponse transactionResponse = transactionService.buyShare(propertyId, request);
         return ResponseEntity.ok(transactionResponse);
     }
 
     @PostMapping("/sell-share")
-    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long propertyId, @RequestBody TransactionRequest request) {
+    public ResponseEntity<ShareTransactionResponse> sellShare(@RequestParam Long propertyId,
+            @RequestBody TransactionRequest request) {
         ShareTransactionResponse transactionResponse = transactionService.sellShare(propertyId, request);
         return ResponseEntity.ok(transactionResponse);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<TransactionResponse> updateTransaction(@PathVariable Long id, @RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionResponse> updateTransaction(@PathVariable UUID id,
+            @RequestBody TransactionRequest transactionRequest) {
         return ResponseEntity.ok(transactionService.updateTransaction(id, transactionRequest));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTransaction(@PathVariable UUID id) {
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok("Transaction has been successfully deleted.");
     }

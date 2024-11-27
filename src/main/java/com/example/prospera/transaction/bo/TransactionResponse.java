@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -15,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class TransactionResponse {
 
-    private Long id;
+    private UUID id;
     private Long userId;
     private String type;
     private Double amount;

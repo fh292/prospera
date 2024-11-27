@@ -30,6 +30,7 @@ public class PropertyResponse {
     private Double availableShares;
     private Integer rentalIncome;
     private Integer currentValue;
+    private List<String> imagesUrls;
 
     private List<PropertyValueResponse> propertyValues;
 
@@ -49,6 +50,9 @@ public class PropertyResponse {
         this.propertySize = entity.getPropertySize();
         this.numberOfBedrooms = entity.getNumberOfBedrooms();
         this.numberOfBathrooms = entity.getNumberOfBathrooms();
+        this.imagesUrls = entity.getImagesUrls().stream()
+                .map(String::new)
+                .collect(Collectors.toList());
         this.propertyValues = entity.getPropertyValues().stream()
                 .map(PropertyValueResponse::new)
                 .collect(Collectors.toList());

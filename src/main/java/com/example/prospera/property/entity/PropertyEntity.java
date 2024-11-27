@@ -71,6 +71,9 @@ public class PropertyEntity {
     @Column(name = "number_of_bathrooms")
     private Integer numberOfBathrooms;
 
+    @Column(name = "images_urls")
+    private final List<String> imagesUrls = new ArrayList<>();
+
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "property" })
     private final List<PropertyValueEntity> propertyValues = new ArrayList<>();
@@ -91,6 +94,10 @@ public class PropertyEntity {
     public void removeInvestment(InvestmentEntity investment) {
         investments.remove(investment);
         investment.setProperty(null);
+    }
+
+    public void addImageUrl(String imageUrl) {
+        imagesUrls.add(imageUrl);
     }
 
 }

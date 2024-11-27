@@ -19,7 +19,7 @@ public class PropertyScheduler {
     this.propertyService = propertyService;
   }
 
-  @Scheduled(cron = "0 * * * * ?")
+  @Scheduled(cron = "0 1 * * * ?")
   public void propertiesValueCRON() {
     System.out.println("Properties Value CRON Job Started");
     List<PropertyEntity> properties = propertyRepository.findAll();

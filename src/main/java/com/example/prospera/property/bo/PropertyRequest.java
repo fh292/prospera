@@ -1,5 +1,7 @@
 package com.example.prospera.property.bo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +26,9 @@ public class PropertyRequest {
     private Double propertySize;
     private Integer numberOfBedrooms;
     private Integer numberOfBathrooms;
+    private String imagesUrl1;
+    private String imagesUrl2;
+    private String imagesUrl3;
+    private String imagesUrl4;
+    private String imagesUrl5;
 }

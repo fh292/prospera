@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +35,7 @@ public class TransactionService {
         return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
     }
 
-    public TransactionResponse getTransactionById(Long id) {
+    public TransactionResponse getTransactionById(UUID id) {
         TransactionEntity transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transaction with ID " + id + " not found"));
         return new TransactionResponse(transaction);
@@ -205,7 +206,7 @@ public class TransactionService {
 
     }
 
-    public TransactionResponse updateTransaction(Long id, TransactionRequest transactionRequest) {
+    public TransactionResponse updateTransaction(UUID id, TransactionRequest transactionRequest) {
         TransactionEntity transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction with ID " + id + " not found"));
 
@@ -219,7 +220,7 @@ public class TransactionService {
         return new TransactionResponse(updatedTransaction);
     }
 
-    public void deleteTransaction(Long id) {
+    public void deleteTransaction(UUID id) {
         if (!transactionRepository.existsById(id)) {
             throw new RuntimeException("Transaction with ID " + id + " not found");
         }
