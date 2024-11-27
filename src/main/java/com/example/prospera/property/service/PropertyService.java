@@ -68,6 +68,33 @@ public class PropertyService {
         return new PropertyResponse(propertyEntity);
     }
 
+    // change property value by percentage
+    public PropertyResponse changePropertyValueByPercentage(Long id, Double percentage) {
+        Optional<PropertyEntity> propertyOptional = propertyRepository.findById(id);
+        if (propertyOptional.isPresent()) {
+            PropertyEntity propertyEntity = propertyOptional.get();
+            Double newValue = propertyEntity.getCurrentValue() * (1 + percentage / 100);
+
+            propertyEntity.setCurrentValue(newValue.intValue());
+            propertyEntity.setUpdatedAt(new Date());
+            propertyEntity = propertyRepository.save(propertyEntity);
+
+            PropertyValueEntity propertyValueEntity = PropertyValueEntity.builder()
+                    .propertyValue(propertyEntity.getCurrentValue())
+                    .availableShares(propertyEntity.getAvailableShares())
+                    .valueDate(new Date())
+                    .property(propertyEntity)
+                    .build();
+
+            propertyEntity.addToPropertyValues(propertyValueEntity);
+            propertyEntity = propertyRepository.save(propertyEntity);
+
+            return new PropertyResponse(propertyEntity);
+        } else {
+            throw new IllegalArgumentException("Property with ID " + id + " not found");
+        }
+    }
+
     // update a property
     public PropertyResponse updateProperty(Long id, PropertyRequest request) {
         Optional<PropertyEntity> propertyOptional = propertyRepository.findById(id);

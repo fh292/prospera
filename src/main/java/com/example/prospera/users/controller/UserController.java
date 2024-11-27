@@ -1,5 +1,6 @@
 package com.example.prospera.users.controller;
 
+import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.bo.RegisterRequest;
 import com.example.prospera.users.bo.UserResponse;
@@ -65,6 +66,32 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/like/{id}")
+    public ResponseEntity<String> likeProperty(@PathVariable Long id) {
+        try {
+            String message = userService.likeProperty(id);
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/unlike/{id}")
+    public ResponseEntity<String> unlikeProperty(@PathVariable Long id) {
+        try {
+            String message = userService.unlikeProperty(id);
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/likes")
+    public ResponseEntity<List<PropertyEntity>> getLikedProperties() {
+        List<PropertyEntity> likedProperties = userService.getLikedProperties();
+        return ResponseEntity.ok(likedProperties);
     }
 
 }

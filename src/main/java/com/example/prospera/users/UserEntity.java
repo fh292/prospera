@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -54,12 +55,28 @@ public class UserEntity implements UserDetails {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = {"user"})
+    @JsonIgnoreProperties(value = { "user" })
     private List<InvestmentEntity> investments;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = {"user"})
+    @JsonIgnoreProperties(value = { "user" })
     private List<TransactionEntity> transactions;
+
+    private List<Long> likedProperties;
+
+    public void addToLikedProperties(Long propertyId) {
+        if (likedProperties == null) {
+            likedProperties = new ArrayList<>();
+        }
+        likedProperties.add(propertyId);
+    }
+
+    public void removeFromLikedProperties(Long propertyId) {
+        if (likedProperties == null) {
+            return;
+        }
+        likedProperties.remove(propertyId);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

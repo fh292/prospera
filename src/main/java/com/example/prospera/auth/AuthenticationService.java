@@ -3,6 +3,9 @@ import com.example.prospera.users.bo.LoginRequest;
 import com.example.prospera.users.bo.RegisterRequest;
 import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.UserRepository;
+
+import java.util.ArrayList;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +35,10 @@ public class AuthenticationService {
                 .setLastName(input.getLastName())
                 .setEmail(input.getEmail())
                 .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setBalance(50.0);
+                .setBalance(50.0)
+                .setTransactions(new ArrayList<>())
+                .setInvestments(new ArrayList<>())
+                .setLikedProperties(new ArrayList<>());
 
         return userRepository.save(user);
     }
