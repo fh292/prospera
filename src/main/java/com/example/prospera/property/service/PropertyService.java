@@ -1,4 +1,5 @@
 package com.example.prospera.property.service;
+
 import com.example.prospera.property.PropertyRepository;
 import com.example.prospera.property.bo.PropertyRequest;
 import com.example.prospera.property.bo.PropertyResponse;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class PropertyService {
     private final PropertyRepository propertyRepository;
 
-    //get all properties
+    // get all properties
     public List<PropertyResponse> getAllProperties() {
         List<PropertyEntity> propertyEntities = propertyRepository.findAll();
         return propertyEntities.stream()
@@ -25,7 +26,7 @@ public class PropertyService {
                 .collect(Collectors.toList());
     }
 
-    //get property by id
+    // get property by id
     public PropertyResponse getPropertyById(Long id) {
         PropertyEntity propertyEntity = propertyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Property with ID " + id + " not found"));
@@ -33,125 +34,101 @@ public class PropertyService {
         return responseId;
     }
 
-
-    //adding new property
+    // adding new property
     public PropertyResponse addProperty(PropertyRequest propertyRequest) {
-        PropertyEntity propertyEntity = new PropertyEntity();
+        PropertyEntity propertyEntity = PropertyEntity.builder()
+                .totalShares(propertyRequest.getTotalShares())
+                .availableShares(propertyRequest.getAvailableShares())
+                .rentalIncome(propertyRequest.getRentalIncome())
+                .currentValue(propertyRequest.getCurrentValue())
+                .typeOfProperty(propertyRequest.getTypeOfProperty())
+                .latitude(propertyRequest.getLatitude())
+                .longitude(propertyRequest.getLongitude())
+                .locationAddress(propertyRequest.getLocationAddress())
+                .locationName(propertyRequest.getLocationName())
+                .description(propertyRequest.getDescription())
+                .propertySize(propertyRequest.getPropertySize())
+                .numberOfBedrooms(propertyRequest.getNumberOfBedrooms())
+                .numberOfBathrooms(propertyRequest.getNumberOfBathrooms())
+                .locationCity(propertyRequest.getLocationCity())
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
 
-        propertyEntity.setName(propertyRequest.getName());
-        propertyEntity.setLocation(propertyRequest.getLocation());
-        propertyEntity.setTotalShares(propertyRequest.getTotalShares());
-        propertyEntity.setAvailableShares(propertyRequest.getAvailableShares());
-        propertyEntity.setRentalIncome(propertyRequest.getRentalIncome());
-        propertyEntity.setCurrentValue(propertyRequest.getCurrentValue());
-        propertyEntity.setTypeOfProperty(propertyRequest.getTypeOfProperty());
-        propertyEntity.setLatitude(propertyRequest.getLatitude());
-        propertyEntity.setLongitude(propertyRequest.getLongitude());
-        propertyEntity.setLocationAddress(propertyRequest.getLocationAddress());
-        propertyEntity.setLocationName(propertyRequest.getLocationName());
-        propertyEntity.setDescription(propertyRequest.getDescription());
-        propertyEntity.setNumberOfShares(propertyRequest.getNumberOfShares());
-        propertyEntity.setPropertyPrice(propertyRequest.getPropertyPrice());
-        propertyEntity.setPropertySize(propertyRequest.getPropertySize());
-        propertyEntity.setNumberOfBedrooms(propertyRequest.getNumberOfBedrooms());
-        propertyEntity.setNumberOfBathrooms(propertyRequest.getNumberOfBathrooms());
+        PropertyValueEntity propertyValueEntity = PropertyValueEntity.builder()
+                .propertyValue(propertyRequest.getCurrentValue())
+                .availableShares(propertyRequest.getAvailableShares())
+                .valueDate(new Date())
+                .property(propertyEntity)
+                .build();
 
-        propertyEntity.setCreatedAt(new Date());
-        propertyEntity.setUpdatedAt(new Date());
-
-        PropertyValueEntity propertyValueEntity = new PropertyValueEntity();
-        propertyValueEntity.setPropertyValue(propertyRequest.getCurrentValue());
-        propertyValueEntity.setAvailableShares(propertyRequest.getAvailableShares());
-        propertyValueEntity.setValueDate(new Date());
-        propertyValueEntity.setProperty(propertyEntity);
         propertyEntity.addToPropertyValues(propertyValueEntity);
-
 
         propertyEntity = propertyRepository.save(propertyEntity);
         return new PropertyResponse(propertyEntity);
     }
 
-    //update a property
+    // update a property
     public PropertyResponse updateProperty(Long id, PropertyRequest request) {
         Optional<PropertyEntity> propertyOptional = propertyRepository.findById(id);
         if (propertyOptional.isPresent()) {
             PropertyEntity propertyEntity = propertyOptional.get();
 
-            if (request.getName() != null) {
-                propertyEntity.setName(request.getName());
-            }
-            if (request.getLocation() != null) {
-                propertyEntity.setLocation(request.getLocation());
-            }
-            if (request.getTotalShares() != null) {
+            // Update basic fields if they are not null
+            if (request.getLocationName() != null)
+                propertyEntity.setLocationName(request.getLocationName());
+            if (request.getLocationAddress() != null)
+                propertyEntity.setLocationAddress(request.getLocationAddress());
+            if (request.getLocationCity() != null)
+                propertyEntity.setLocationCity(request.getLocationCity());
+            if (request.getDescription() != null)
+                propertyEntity.setDescription(request.getDescription());
+            if (request.getTotalShares() != null)
                 propertyEntity.setTotalShares(request.getTotalShares());
-            }
-            if (request.getRentalIncome() != null) {
+            if (request.getRentalIncome() != null)
                 propertyEntity.setRentalIncome(request.getRentalIncome());
-            }
-            Boolean currentValueChanged = request.getCurrentValue() != null && !request.getCurrentValue().equals(propertyEntity.getCurrentValue());
-            Boolean currentAvailableSharesChanged = request.getAvailableShares() != null && !request.getAvailableShares().equals(propertyEntity.getAvailableShares());
-            if (currentValueChanged || currentAvailableSharesChanged) {
-                if (currentValueChanged) {
-                    propertyEntity.setCurrentValue(request.getCurrentValue());
-                }
-                if (currentAvailableSharesChanged) {
-                    propertyEntity.setAvailableShares(request.getAvailableShares());
-                }
+            if (request.getTypeOfProperty() != null)
+                propertyEntity.setTypeOfProperty(request.getTypeOfProperty());
+            if (request.getLatitude() != null)
+                propertyEntity.setLatitude(request.getLatitude());
+            if (request.getLongitude() != null)
+                propertyEntity.setLongitude(request.getLongitude());
+            if (request.getPropertySize() != null)
+                propertyEntity.setPropertySize(request.getPropertySize());
+            if (request.getNumberOfBedrooms() != null)
+                propertyEntity.setNumberOfBedrooms(request.getNumberOfBedrooms());
+            if (request.getNumberOfBathrooms() != null)
+                propertyEntity.setNumberOfBathrooms(request.getNumberOfBathrooms());
 
-                PropertyValueEntity propertyValueEntity = new PropertyValueEntity();
-                propertyValueEntity.setPropertyValue(propertyEntity.getCurrentValue());
-                propertyValueEntity.setAvailableShares(propertyEntity.getAvailableShares());
-                propertyValueEntity.setValueDate(new Date());
-                propertyValueEntity.setProperty(propertyEntity);
+            // Check if value-tracking fields have changed
+            Boolean currentValueChanged = request.getCurrentValue() != null
+                    && !request.getCurrentValue().equals(propertyEntity.getCurrentValue());
+            Boolean availableSharesChanged = request.getAvailableShares() != null
+                    && !request.getAvailableShares().equals(propertyEntity.getAvailableShares());
+
+            // Update value-tracking fields and create history entry if needed
+            if (currentValueChanged || availableSharesChanged) {
+                if (currentValueChanged)
+                    propertyEntity.setCurrentValue(request.getCurrentValue());
+                if (availableSharesChanged)
+                    propertyEntity.setAvailableShares(request.getAvailableShares());
+
+                PropertyValueEntity propertyValueEntity = PropertyValueEntity.builder()
+                        .propertyValue(propertyEntity.getCurrentValue())
+                        .availableShares(propertyEntity.getAvailableShares())
+                        .valueDate(new Date())
+                        .property(propertyEntity)
+                        .build();
 
                 propertyEntity.addToPropertyValues(propertyValueEntity);
             }
+
             propertyEntity.setUpdatedAt(new Date());
-
-            if (request.getTypeOfProperty() != null) {
-                propertyEntity.setTypeOfProperty(request.getTypeOfProperty());
-            }
-
-            if (request.getLatitude() != null) {
-                propertyEntity.setLatitude(request.getLatitude());
-            }
-            if (request.getLongitude() != null) {
-                propertyEntity.setLongitude(request.getLongitude());
-            }
-            if (request.getLocationAddress() != null) {
-                propertyEntity.setLocationAddress(request.getLocationAddress());
-            }
-            if (request.getLocationName() != null) {
-                propertyEntity.setLocationName(request.getLocationName());
-            }
-            if (request.getDescription() != null) {
-                propertyEntity.setDescription(request.getDescription());
-            }
-            if (request.getNumberOfShares() != null) {
-                propertyEntity.setNumberOfShares(request.getNumberOfShares());
-            }
-            if (request.getPropertyPrice() != null) {
-                propertyEntity.setPropertyPrice(request.getPropertyPrice());
-            }
-            if (request.getPropertySize() != null) {
-                propertyEntity.setPropertySize(request.getPropertySize());
-            }
-            if (request.getNumberOfBedrooms() != null) {
-                propertyEntity.setNumberOfBedrooms(request.getNumberOfBedrooms());
-            }
-            if (request.getNumberOfBathrooms() != null) {
-                propertyEntity.setNumberOfBathrooms(request.getNumberOfBathrooms());
-            }
-
             propertyEntity = propertyRepository.save(propertyEntity);
-
-            PropertyResponse propertyResponse = new PropertyResponse(propertyEntity);
-            return propertyResponse;
+            return new PropertyResponse(propertyEntity);
         } else {
             throw new IllegalArgumentException("Property with ID " + id + " not found");
         }
-
     }
 
     public void deletePropertyById(Long id) {

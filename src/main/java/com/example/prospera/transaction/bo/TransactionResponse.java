@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,7 +17,6 @@ public class TransactionResponse {
 
     private Long id;
     private Long userId;
-    // private Long propertyId;
     private String type;
     private Double amount;
     private Date createdAt;
@@ -27,7 +25,6 @@ public class TransactionResponse {
     public TransactionResponse(TransactionEntity transactionEntity) {
         this.id = transactionEntity.getId();
         this.userId = transactionEntity.getUser() != null ? transactionEntity.getUser().getId() : null;
-//        this.propertyId = transactionEntity.getProperty() != null ? transactionEntity.getProperty().getId() : null;
         this.type = transactionEntity.getType();
         this.amount = transactionEntity.getAmount();
         this.createdAt = transactionEntity.getCreatedAt();

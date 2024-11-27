@@ -1,4 +1,5 @@
 package com.example.prospera.property.bo;
+
 import com.example.prospera.property.entity.PropertyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,51 +14,44 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PropertyResponse {
-
     private Long id;
-    private String name;
-    private String location;
+
+    private String locationName;
+    private String locationAddress;
+    private String locationCity;
+    private String latitude;
+    private String longitude;
+    private String description;
+    private String typeOfProperty;
+    private Double propertySize;
+    private Integer numberOfBedrooms;
+    private Integer numberOfBathrooms;
     private Integer totalShares;
     private Double availableShares;
     private Integer rentalIncome;
     private Integer currentValue;
-    private List<PropertyValueResponse> propertyValues;
-    private String typeOfProperty;
-    private String latitude;
-    private String longitude;
-    private String locationAddress;
-    private String locationName;
-    private String description;
-    private Integer numberOfShares;
-    private Integer propertyPrice;
-    private Double propertySize;
-    private Integer numberOfBedrooms;
-    private Integer numberOfBathrooms;
 
+    private List<PropertyValueResponse> propertyValues;
 
     public PropertyResponse(PropertyEntity entity) {
         this.id = entity.getId();
-        this.name = entity.getName();
-        this.location = entity.getLocation();
         this.totalShares = entity.getTotalShares();
         this.availableShares = entity.getAvailableShares();
         this.rentalIncome = entity.getRentalIncome();
         this.currentValue = entity.getCurrentValue();
-        this.propertyValues = entity.getPropertyValues().stream()
-                .map(PropertyValueResponse::new)
-                .collect(Collectors.toList());
+        this.typeOfProperty = entity.getTypeOfProperty();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();
         this.locationAddress = entity.getLocationAddress();
         this.locationName = entity.getLocationName();
+        this.locationCity = entity.getLocationCity();
         this.description = entity.getDescription();
-        this.numberOfShares = entity.getNumberOfShares();
-        this.propertyPrice = entity.getPropertyPrice();
         this.propertySize = entity.getPropertySize();
         this.numberOfBedrooms = entity.getNumberOfBedrooms();
         this.numberOfBathrooms = entity.getNumberOfBathrooms();
-
+        this.propertyValues = entity.getPropertyValues().stream()
+                .map(PropertyValueResponse::new)
+                .collect(Collectors.toList());
     }
-
 
 }

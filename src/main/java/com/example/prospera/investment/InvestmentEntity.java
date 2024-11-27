@@ -1,4 +1,5 @@
 package com.example.prospera.investment;
+
 import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.users.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,26 +23,24 @@ public class InvestmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    private Double sharesOwned;
+    private Double amountInvested;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value={"investments"})
+    @JsonIgnoreProperties(value = { "investments" })
     private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties(value={"investments"})
+    @JsonIgnoreProperties(value = { "investments" })
     private PropertyEntity property;
-
-    private String name;
-    private Double sharesOwned;
-    private Double amountInvested;
 
     @Column(name = "investment_created_at")
     private Date createdAt;
 
     @Column(name = "investment_updated_at")
     private Date updatedAt;
-
-
 
 }

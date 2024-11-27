@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 
 public class ShareTransactionResponse {
     private Long id;

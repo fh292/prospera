@@ -25,9 +25,8 @@ public class TransactionEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = {"transactions"})
+    @JsonIgnoreProperties(value = { "transactions" })
     private UserEntity user;
-
 
     @Column(name = "type")
     private String type; // deposit, withdraw, buy share, sell share
@@ -40,6 +39,5 @@ public class TransactionEntity {
 
     @Column(name = "trans_updated_at")
     private Date updatedAt;
-
 
 }

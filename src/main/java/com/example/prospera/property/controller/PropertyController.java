@@ -1,6 +1,5 @@
 package com.example.prospera.property.controller;
 
-import com.example.prospera.property.PropertyRepository;
 import com.example.prospera.property.bo.PropertyRequest;
 import com.example.prospera.property.bo.PropertyResponse;
 import com.example.prospera.property.service.PropertyService;
@@ -18,10 +17,7 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
-    private final PropertyRepository propertyRepository;
-
-    public PropertyController(PropertyRepository propertyRepository) {
-        this.propertyRepository = propertyRepository;
+    public PropertyController() {
     }
 
     @GetMapping("/view")
@@ -40,7 +36,8 @@ public class PropertyController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PropertyResponse> updateProperty(@PathVariable Long id, @RequestBody PropertyRequest propertyRequest) {
+    public ResponseEntity<PropertyResponse> updateProperty(@PathVariable Long id,
+            @RequestBody PropertyRequest propertyRequest) {
         return ResponseEntity.ok(propertyService.updateProperty(id, propertyRequest));
     }
 

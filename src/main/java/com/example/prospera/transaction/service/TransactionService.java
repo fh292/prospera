@@ -104,7 +104,7 @@ public class TransactionService {
         PropertyEntity property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new IllegalArgumentException("Property with ID " + propertyId + " not found"));
 
-        double sharePrice = (double) property.getPropertyPrice() / property.getTotalShares(); // Derive share price
+        double sharePrice = (double) property.getCurrentValue() / property.getTotalShares(); // Derive share price
         double totalCost = sharePrice * request.getAmount();
 
         if (property.getAvailableShares() < request.getAmount()) {
@@ -144,7 +144,6 @@ public class TransactionService {
         TransactionEntity transaction = new TransactionEntity();
         transaction.setType("buy share");
         transaction.setUser(user);
-        // transaction.setProperty(property);
         transaction.setAmount(request.getAmount());
         transaction.setCreatedAt(new Date());
         transaction.setUpdatedAt(new Date());
@@ -165,7 +164,7 @@ public class TransactionService {
         PropertyEntity property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new IllegalArgumentException("Property with ID " + propertyId + " not found"));
 
-        double sharePrice = (double) property.getPropertyPrice() / property.getTotalShares(); // Derive share price
+        double sharePrice = (double) property.getCurrentValue() / property.getTotalShares(); // Derive share price
         double totalCost = sharePrice * request.getAmount();
 
         InvestmentEntity investment = investmentRepository.findByUserAndProperty(user, property)
@@ -208,9 +207,6 @@ public class TransactionService {
         TransactionEntity transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction with ID " + id + " not found"));
 
-        if (transactionRequest.getType() != null) {
-            transaction.setType(transactionRequest.getType());
-        }
         if (transactionRequest.getAmount() != null) {
             transaction.setAmount(transactionRequest.getAmount());
         }
