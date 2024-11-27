@@ -17,7 +17,6 @@ import java.util.Date;
 public class ShareTransactionResponse {
     private Long id;
     private Long userId;
-    private Long propertyId;
     private String type;
     private Double amount;
     private Date createdAt;

@@ -5,7 +5,6 @@ import com.example.prospera.investment.InvestmentRepository;
 import com.example.prospera.investment.bo.InvestmentRequest;
 import com.example.prospera.investment.bo.InvestmentResponse;
 import com.example.prospera.property.PropertyRepository;
-import com.example.prospera.property.bo.PropertyResponse;
 import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.users.UserEntity;
 import com.example.prospera.users.UserRepository;
@@ -24,7 +23,7 @@ public class InvestmentService {
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
 
-    //get all investments
+    // get all investments
     public List<InvestmentResponse> getAllInvestments() {
         List<InvestmentEntity> investmentEntities = investmentRepository.findAll();
         return investmentEntities.stream()
@@ -32,8 +31,7 @@ public class InvestmentService {
                 .collect(Collectors.toList());
     }
 
-
-    //get investment by id
+    // get investment by id
     public InvestmentResponse getInvestmentById(Long id) {
         InvestmentEntity investmentEntity = investmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Property with ID " + id + " not found"));
@@ -41,7 +39,7 @@ public class InvestmentService {
         return response;
     }
 
-    //add an investment
+    // add an investment
     public InvestmentResponse addInvestment(Long userId, Long propertyId, InvestmentRequest investmentRequest) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
@@ -49,10 +47,9 @@ public class InvestmentService {
         PropertyEntity property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new IllegalArgumentException("Property with ID " + propertyId + " not found"));
 
-        InvestmentEntity investmentEntity= InvestmentEntity.builder()
+        InvestmentEntity investmentEntity = InvestmentEntity.builder()
                 .user(user)
                 .property(property)
-                .name(investmentRequest.getName())
                 .sharesOwned(investmentRequest.getSharesOwned())
                 .amountInvested(investmentRequest.getAmountInvested())
                 .createdAt(new Date())
@@ -63,14 +60,11 @@ public class InvestmentService {
         return addedResponse;
     }
 
-    //update an investment
+    // update an investment
     public InvestmentResponse updateInvestment(Long id, InvestmentRequest investmentRequest) {
         InvestmentEntity investment = investmentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Investment with ID " + id + " not found"));
 
-        if (investmentRequest.getName() != null) {
-            investment.setName(investmentRequest.getName());
-        }
         if (investmentRequest.getSharesOwned() != null) {
             investment.setSharesOwned(investmentRequest.getSharesOwned());
         }
@@ -82,7 +76,7 @@ public class InvestmentService {
         return new InvestmentResponse(updatedResponse);
     }
 
-    //delete an investment
+    // delete an investment
     public void deleteInvestmentById(Long id) {
         if (!investmentRepository.existsById(id)) {
             throw new IllegalArgumentException("Investment with ID " + id + " not found");
@@ -90,5 +84,3 @@ public class InvestmentService {
         investmentRepository.deleteById(id);
     }
 }
-
-

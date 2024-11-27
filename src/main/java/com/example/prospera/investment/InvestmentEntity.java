@@ -23,7 +23,6 @@ public class InvestmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
     private Double sharesOwned;
     private Double amountInvested;
 

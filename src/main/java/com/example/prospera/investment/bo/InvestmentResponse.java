@@ -16,8 +16,6 @@ import java.util.Date;
 public class InvestmentResponse {
     private Long id;
     private Long userId;
-    private Long propertyId;
-    private String name;
     private Double sharesOwned;
     private Double amountInvested;
     private Date createdAt;
@@ -26,8 +24,6 @@ public class InvestmentResponse {
     public InvestmentResponse(InvestmentEntity investmentEntity) {
         this.id = investmentEntity.getId();
         this.userId = investmentEntity.getUser().getId();
-        this.propertyId = investmentEntity.getProperty().getId();
-        this.name = investmentEntity.getName();
         this.sharesOwned = investmentEntity.getSharesOwned();
         this.amountInvested = investmentEntity.getAmountInvested();
         this.createdAt = investmentEntity.getCreatedAt();

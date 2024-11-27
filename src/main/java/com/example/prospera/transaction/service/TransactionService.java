@@ -128,6 +128,8 @@ public class TransactionService {
                     newInvestment.setProperty(property);
                     newInvestment.setSharesOwned(0.0); // Set initial shares owned to 0
                     newInvestment.setAmountInvested(0.0); // Set initial invested amount to 0
+                    newInvestment.setCreatedAt(new Date());
+                    newInvestment.setUpdatedAt(new Date());
                     return newInvestment;
                 });
 
