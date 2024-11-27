@@ -32,7 +32,7 @@ public class AuthenticationService {
                 .setLastName(input.getLastName())
                 .setEmail(input.getEmail())
                 .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setBalance(0.0);
+                .setBalance(50.0);
 
         return userRepository.save(user);
     }
