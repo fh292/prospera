@@ -1,5 +1,6 @@
 package com.example.prospera.property.entity;
 
+import com.example.prospera.property.image.ImageEntity;
 import com.example.prospera.investment.InvestmentEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -92,5 +93,20 @@ public class PropertyEntity {
         investments.remove(investment);
         investment.setProperty(null);
     }
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageEntity> images = new ArrayList<>();
+
+    public void addImage(ImageEntity image) {
+        images.add(image);
+        image.setProperty(this);
+    }
+
+    public void removeImage(ImageEntity image) {
+        images.remove(image);
+        image.setProperty(null);
+    }
+
+
 
 }

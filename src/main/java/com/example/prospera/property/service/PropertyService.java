@@ -1,5 +1,6 @@
 package com.example.prospera.property.service;
 
+import com.example.prospera.property.image.ImageEntity;
 import com.example.prospera.property.PropertyRepository;
 import com.example.prospera.property.bo.PropertyRequest;
 import com.example.prospera.property.bo.PropertyResponse;
@@ -7,6 +8,7 @@ import com.example.prospera.property.entity.PropertyEntity;
 import com.example.prospera.property.entity.PropertyValueEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -64,9 +66,42 @@ public class PropertyService {
 
         propertyEntity.addToPropertyValues(propertyValueEntity);
 
+
         propertyEntity = propertyRepository.save(propertyEntity);
         return new PropertyResponse(propertyEntity);
     }
+
+    public void addImagesToProperty(Long propertyId, List<MultipartFile> imagesFiles) {
+        if (imagesFiles == null || imagesFiles.isEmpty()) {
+            throw new RuntimeException("No images provided for upload.");
+        }
+
+        PropertyEntity propertyEntity = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new RuntimeException("Property with ID " + propertyId + " not found"));
+
+        for (MultipartFile file : imagesFiles) {
+            try {
+                // Validate file type (optional)
+                if (!file.getContentType().startsWith("image/")) {
+                    throw new RuntimeException("File " + file.getOriginalFilename() + " is not a valid image.");
+                }
+
+                // Create and associate image
+                ImageEntity image = new ImageEntity();
+                image.setName(file.getOriginalFilename());
+                image.setType(file.getContentType());
+                image.setData(file.getBytes());
+                image.setProperty(propertyEntity);
+
+                propertyEntity.addImage(image);
+            } catch (Exception e) {
+                throw new RuntimeException("Error saving image: " + file.getOriginalFilename() + " - " + e.getMessage(), e);
+            }
+        }
+
+        propertyRepository.save(propertyEntity);
+    }
+
 
     // update a property
     public PropertyResponse updateProperty(Long id, PropertyRequest request) {
